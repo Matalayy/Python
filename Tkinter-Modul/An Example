@@ -1,0 +1,107 @@
+#-*- coding: utf-8 -*-
+
+from Tkinter import *
+
+        
+
+def hes():
+        
+        try:
+            a11=float(e11.get())
+            a12=float(e12.get())
+            a21=float(e21.get())
+            a22=float(e22.get())
+            a31=float(e31.get())
+            a32=float(e32.get())
+            px=float(en1.get())
+            py=float(en2.get())
+            
+            if (a11==a21 and a12==a22) or (a21==a31 and a22==a32) or(a11==a31 and a12==a32) :
+                lb2["text"]="Farkli noktalar giriniz"
+                if a11==a21 and a12==a22:
+                        e21.delete(0,END)
+                        e22.delete(0,END)
+                elif a21==a31 and a22==a32:
+                        e31.delete(0,END)
+                        e32.delete(0,END)
+                elif a11==a31 and a12==a32:
+                        e31.delete(0,END)
+                        e32.delete(0,END)
+                        
+            elif (a11==a21 and a21==a31) or (a12==a22 and a22==a32):
+                    lb2["text"]="Lutfen bir dogru uzerinde noktalar girmeyiniz"
+                    e11.delete(0,END)
+                    e12.delete(0,END)
+                    e21.delete(0,END)
+                    e22.delete(0,END)
+                    e31.delete(0,END)
+                    e32.delete(0,END)
+            else:
+                    #bt=Button(w,text="Noktayi Al",font="Tahoma 12 underline",
+                              #command=al)
+                    #bt.grid(row=9, column=3)
+                    bx = a21-a11
+                    y = a22-a12
+                    cx = a31-a11
+                    cy = a32-a12
+                    x = px-a11
+                    y = py-a12
+                    d = bx*cy-cx*by
+                    wa =(x*(by-cy)+ y*(cx-bx) + bx*cy - cx*by)/d
+                    wb =(x*cy - y*cx)/d
+                    wc =(y*bx -x*by)/d
+                    if (wa>0 and wa<1) and (wb>0 and wb<1) and (wc>0 and wc<1):
+                            lbls["text"]= "Sonuc : icinde"
+                    else:
+                            lbls["text"]="Sonuc : disinda"
+            
+        except:
+            lb1["text"]="Lutfen bosluklari\nsayi ile doldurunuz"
+
+
+w=Tk()
+w.geometry("400x400+0+0")
+w.resizable(width=True,height=True)
+
+lb1=Label(w,bg="white",font="Times 12 italic")
+lb1.grid(row=6, columnspan=3)
+lb2=Label(w, bg="white",font="Times 12 italic")
+lb2.grid(row=7, columnspan=3)
+lbl=Label(w,text="Noktayi giriniz:", bg="white",font="Times 12 italic")
+lbl.grid(row=8, columnspan=1)
+en1=Entry(w,width=4, font="Times 12 bold")
+en1.grid(row=8, column=3)
+en2=Entry(w,width=4, font="Times 12 bold")
+en2.grid(row=8, column=4)
+lbls=Label(w, bg="white",font="Times 12 italic")
+lbls.grid(row=9, columnspan=1)
+fr=Frame()
+fr.grid(row=4, columnspan=3)
+btn=Button(text="Sayilari Al",font="Tahoma 12 underline",command=hes)
+btn.grid(row=5,columnspan=3)
+#giris
+l1=Label(fr,text="1. nokta ikilisi:",font="Times 12 bold")
+l1.grid(row=0, column=0)
+e11=Entry(fr, width=4, font="Times 12 bold")
+e11.grid(row=0, column=1)
+e12=Entry(fr, width=4, font="Times 12 bold")
+e12.grid(row=0, column=2)
+
+l2=Label(fr,text="2. nokta ikilisi:",font="Times 12 bold")
+l2.grid(row=1, column=0)
+e21=Entry(fr, width=4, font="Times 12 bold")
+e21.grid(row=1, column=1)
+e22=Entry(fr, width=4, font="Times 12 bold")
+e22.grid(row=1, column=2)
+
+l3=Label(fr,text="3. nokta ikilisi:",font="Times 12 bold")
+l3.grid(row=2, column=0)
+e31=Entry(fr, width=4, font="Times 12 bold")
+e31.grid(row=2, column=1)
+e32=Entry(fr, width=4, font="Times 12 bold")
+e32.grid(row=2, column=2)
+
+
+#cikis
+
+mainloop()
