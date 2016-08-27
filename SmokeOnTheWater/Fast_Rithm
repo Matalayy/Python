@@ -1,0 +1,88 @@
+# Drums big Example
+
+from music import *
+
+rep = 8 ## repeat = rep =8
+
+## define data structure
+score =Score("Drum Machine Pattern",125.0) # tempo = 125.0 bpm
+
+drumPart = Part("Drums",0,9)
+bassDrumPhrase = Phrase(0.0)
+snareDrumPhrase = Phrase(0.0)
+hiHatPhrase = Phrase(0.0)
+
+## bass drum pattern // [(one bass + one rest)*(1/4 notes)]*4 = 2 measures
+drumPitches = [BDR ,REST]*8
+drumDurations = [QN,QN]*8
+bassDrumPhrase.addNoteList(drumPitches,drumDurations)
+
+## snare drum pattern // [(one bass + one rest)*(1/4 notes)]*4 = 2 measures
+snarePitches = [REST, SNR] * 8
+snareDurations = [QN, QN] * 8
+snareDrumPhrase.addNoteList(snarePitches, snareDurations)
+
+## hi-hat pattern // (15 closed hi-hat * 1/8 notes + 1 open hi-hat * 1/8 note) = 2 measures
+hiHatPitches = ([CHH] * 15 + [OHH])*2
+hiHatDurations = ([EN] * 15 + [EN])*2
+hiHatPhrase.addNoteList(hiHatPitches, hiHatDurations)
+
+## repeat material as needed
+Mod.repeat(bassDrumPhrase,rep)
+Mod.repeat(snareDrumPhrase,rep)
+Mod.repeat(hiHatPhrase,rep)
+
+## combine musical material
+drumPart.addPhrase(bassDrumPhrase)
+drumPart.addPhrase(snareDrumPhrase)
+drumPart.addPhrase(hiHatPhrase)
+
+## add part to Score
+score.addPart(drumPart)
+Write.midi(score, "MidiDeneme.mid")
+###
+guitarPart = Part(OVERDRIVE_GUITAR, 0)
+bassPart = Part(ELECTRIC_BASS, 1)
+
+guitarPhrase1 = Phrase() # guitar opening melody
+guitarPhrase2 = Phrase() # guitar opening melody an octave lower
+bassPhrase = Phrase() # bass melody
+guitarPitches = [G2, AS2, C3, G2, AS2, CS3, C3, G2, AS2, C3, AS2,
+G2]
+guitarDurations = [QN, QN, DQN, QN, QN, EN, HN, QN, QN, DQN, QN,DHN+EN]
+guitarPhrase1.addNoteList(guitarPitches, guitarDurations)
+guitarPhrase2 = guitarPhrase1.copy()
+Mod.transpose(guitarPhrase2, -12)
+bassPitches1 = [G2, G2, G2, G2, G2, G2, G2, G2, G2, G2,
+G2, G2, G2, G2, G2, G2, G2, G2]
+
+bassDurations1 = [EN, EN, EN, EN, EN, EN, EN, EN, EN, EN,
+EN, EN, EN, EN, EN, EN, EN, EN]
+bassPitches2 = [ AS2, AS2, C3, C3, C3, AS2, AS2, G2, G2,
+G2, G2, G2, G2, G2]
+bassDurations2 = [EN, EN, EN, EN, EN, EN, EN, EN, EN,
+EN, EN, EN, EN, EN]
+bassPhrase.addNoteList(bassPitches1, bassDurations1)
+bassPhrase.addNoteList(bassPitches2, bassDurations2)
+
+Mod.repeat(guitarPhrase1, 8)
+Mod.repeat(guitarPhrase2, 6)
+Mod.repeat(bassPhrase, 4)
+
+guitarPhrase1.setStartTime(0.0) # start at beginning
+guitarPhrase2.setStartTime(32.0) # start after two repetitions
+bassPhrase.setStartTime(64.0) # start after two more repetitions
+
+guitarPart.addPhrase(guitarPhrase1)
+guitarPart.addPhrase(guitarPhrase2)
+bassPart.addPhrase(bassPhrase)
+
+score.addPart(guitarPart)
+score.addPart(bassPart)
+
+###
+## View and Play
+Write.midi(score,"Smoke On Water Fast Rhytim.mid")
+View.sketch(score)
+Play.midi(score)
+
