@@ -1,0 +1,169 @@
+#-*- coding: cp1254 -*-
+def asalmi(n):
+    if n==1: return False
+    for i in range(2,n):
+        if n%i==0: return False
+    return True
+def aasalmi(m,n):
+    for i in range(2,m+1):
+        if m%i==0 and n%i==0:
+            return False
+    return True
+def fa(n):
+    f=1
+    if n==0 or n==1 : return 1
+    for i in range(1,n+1):
+        f=f*i
+    return f
+def kom(n,r):
+    if n<r : return 1
+    return fa(n)/(fa(n-r)*fa(r))
+def menu():
+    print """
+            ..:: MENU ::..
+        1. Asalları Listele,
+        2. Aralarında Asalları Listele,
+        3. Aralıkta tek-çift listele,
+        4. Pascal Üçgenini Yazdır,
+        5. Fibonacci Sayıları,
+        6. a_n = 1/n^k dizisi,
+        0. ÇIKIŞ
+    Seçeneği Giriniz:
+    """
+    sec = int(raw_input())
+    while sec<0 or sec>6:
+        sec = int(raw_input("Lütfen Seçeneği Doğru Giriniz:"))
+    return sec
+k=menu()
+while not k==0:
+    if k==1:
+        sayi=int(raw_input("Lütfen 1-250 arasında bir tamsayı giriniz: (ÇIK:1)"))
+        while sayi<1 or sayi>250:
+            sayi=int(raw_input("Sayı 1-250 arasında olmalıdır..(ÇIK:1)"))
+        while not sayi==1:
+            dizi=[]
+            for i in range(sayi,1,-1):
+                if asalmi(i):
+                    dizi.append(i)
+            print "%s sayısına kadar olan asallar:"%sayi
+            for i in range(len(dizi)):
+                print dizi[i],
+            print "\n"
+
+            eb=0
+            for i in range(len(dizi)-1):
+                if eb<dizi[i]-dizi[i+1]:
+                    eb=dizi[i]-dizi[i+1]
+                print "%s - %s = %s"%(dizi[i], dizi[i+1], dizi[i]-dizi[i+1])
+
+            for i in range(1,eb+1):
+                print "%s = {"%i,
+                for j in range(len(dizi)-1):
+                    if dizi[j]-dizi[j+1]==i:
+                        print " (%s, %s) "%(dizi[j+1],dizi[j]),
+                print " }\n"
+
+            sayi=int(raw_input("Lütfen 1-250 arasında bir tamsayı giriniz: (ÇIK:1)"))
+            while sayi<1 or sayi>250:
+                sayi=int(raw_input("Sayı 1-250 arasında olmalıdır..(ÇIK:1)"))
+    if k==2:
+        sayi=int(raw_input("Lütfen 1-100 arasında bir tamsayı giriniz: (ÇIK:1))"))
+        while sayi<1 or sayi>100:
+            sayi=int(raw_input("Sayı 1-100 arasında olmalıdır: (ÇIK:1))"))
+        while not sayi==1:
+            dizi=[]
+            for i in range(sayi-1,0,-1):
+                if aasalmi(i,sayi):
+                    dizi.append(i)
+            print "%s sayısı ile %s den küçük aralarında asal olduğu sayılar: "%(sayi,sayi)
+            for i in range (1, len(dizi)+1):
+                print dizi[-i],
+            print "\n"
+            
+            sayi=int(raw_input("Lütfen 1-100 arasında bir tamsayı giriniz: (ÇIK:1))"))
+            while sayi<1 or sayi>100:
+                sayi=int(raw_input("Sayı 1-100 arasında olmalıdır: (ÇIK:1))"))
+    if k==3:
+        s1=int(raw_input("1.SAYI:"))
+        s2=int(raw_input("2.SAYI (ÇIK: iki sayı eşitken): "))
+        while not s1==s2:
+            c=[]
+            t=[]
+            k=s1
+            b=s2
+            if s1>s2:
+                k=s2
+                b=s1
+            for i in range(k,b+1):
+                if i%2==0:
+                    c.append(i)
+                else:
+                    t.append(i)
+            tt=0
+            ct=0
+            print "[%s, %s] aralığındaki Çift Sayılar: "%(k,b),
+            for i in c:
+                ct=ct+i
+                print i,
+            print "\n Çiftlerin Toplamı: %s"%ct
+            print "\n\n[%s, %s] aralığındaki Tek Sayılar: "%(k,b),
+            for i in t:
+                tt=tt+i
+                print i,
+            print "\n Teklerin Toplamı: %s\n\n"%tt
+
+            s1=int(raw_input("1.SAYI:"))
+            s2=int(raw_input("2.SAYI (ÇIK: iki sayı eşitken): "))
+    if k==4:
+        sayi=int(raw_input("Lütfen 1-15 arasında bir tamsayı giriniz(ÇIK: negatif veya 0): "))
+        while sayi>15:
+            sayi=int(raw_input("!!! 1-15 arasında bir tamsayı giriniz(ÇIK: negatif veya 0): "))
+        while sayi>0:
+            for n in range(sayi,0,-1):
+                for r in range(n+1):
+                    print "%s "%kom(n,r),
+                print "\n"
+            print 1
+
+            sayi=int(raw_input("Lütfen 1-15 arasında bir tamsayı giriniz(ÇIK: negatif veya 0): "))
+            while sayi>15:
+                sayi=int(raw_input("!!! 1-15 arasında bir tamsayı giriniz(ÇIK: negatif veya 0): "))
+        
+    if k==5:
+        sayi=int(raw_input("Lütfen Pozitif Bir Tamsayı Giriniz: (ÇIK: 0))"))
+        while sayi<0:
+            sayi=int(raw_input("Lütfen POZİTİF Bir Tamsayı Giriniz: (ÇIK: 0))"))
+        while not sayi==0:
+            def fiblist(n):
+                fl=[1,1]
+                while fl[-1]<n:
+                    fl.append(fl[-1]+fl[-2])
+                return fl
+            print "%s sayısına kadar olan Fibonacci sayıları:\n "%sayi
+            for i in fiblist(sayi):
+                if i<sayi:
+                    print i,
+            print "\n"
+            print "%s sayısı [%s, %s] fibonacci sayıları aralığındadır."%(sayi, fiblist(sayi)[-2], fiblist(sayi)[-1])
+        
+            sayi=int(raw_input("Lütfen Pozitif Bir Tamsayı Giriniz: (ÇIK: 0))"))
+            while sayi<0:
+                sayi=int(raw_input("Lütfen POZİTİF Bir Tamsayı Giriniz: (ÇIK: 0))"))
+    if k==6:
+        t=int(raw_input("Dereceyi Giriniz:"))
+        x=int(raw_input("Terim sayısını giriniz: (ÇIK:0)"))
+        while x<0:
+            x=int(raw_input("Terim sayısını NEGATİF girmeyiniz: (ÇIK:0)"))
+        while not x==0:
+            print"a_n=1/n^%s dizisinin ilk %s terimi:\n\n"%(t,x)
+            for i in range(1,x+1):
+                print "a_%s = 1/%s^%s = 1/%s = %s\n\n"%(i,i,t,i**t,1/float(i**t))
+
+            t=int(raw_input("Dereceyi Giriniz:"))
+            x=int(raw_input("Terim sayısını giriniz: (ÇIK:0)"))
+            while x<0:
+                x=int(raw_input("Terim sayısını NEGATİF girmeyiniz: (ÇIK:0)"))
+        
+    
+    k=menu()
+print "GÜLE GÜLE, YİNE BEKLERİZ!!!"
